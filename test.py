@@ -836,6 +836,7 @@ patients_df, personnel_df, departements_df, quotidien_df = charger_donnees()
 # -----------------------------------------------------------------------------
 
 # Barre latérale
+# -----------------------------------------------------------------------------
 # st.sidebar.image("https://img.icons8.com/color/96/000000/hospital-3.png", width=80)
 st.sidebar.title(t("sidebar_title"))
 st.sidebar.markdown(f"<div style='color: {current_theme['primary_color']}; margin-bottom: 20px; font-weight: 500;'>{t('sidebar_subtitle')}</div>", unsafe_allow_html=True)
@@ -1206,6 +1207,15 @@ if st.session_state.compact_mode:
     <div class="compact-card">
         <div class="compact-title">{t("key_metrics_section")}</div>
         <div class="metric-value">{total_patients:,}</div>
+
+        
+    """, unsafe_allow_html=True)
+    
+    # Colonne 1: Métriques clés
+    st.markdown(f"""
+    <div class="compact-card">
+        <div class="compact-title">{t("key_metrics_section")}</div>
+        <div class="metric-value">{total_patients:,}</div>
         <div class="metric-label">{t("total_patients")}</div>
         <hr style="border-color: {current_theme['border_color']}; margin: 0.5rem 0;">
         <div class="metric-value">{patients_actuels:,}</div>
@@ -1219,15 +1229,17 @@ if st.session_state.compact_mode:
     </div>
     """, unsafe_allow_html=True)
     
-    # Colonne 2: Alertes critiques
+    
+    # Colonne 2: Alertes critiques (Ajout de # Reste des alertes critiques (total - 3))
     alertes_critiques = [a for a in alertes if a['type'] == 'critique']
     st.markdown(f"""
     <div class="compact-card">
         <div class="compact-title">{t("alerts_section")}</div>
         {"".join([f'<div style="color: {current_theme["danger_color"]}; margin-bottom: 0.5rem; font-weight: 600;">{a["titre"]}</div>' for a in alertes_critiques[:3]])}
-        {f'<div style="color: {current_theme["text_muted"]}; font-size: 0.8rem;">+ {len(alertes_critiques) - 3} autres alertes critiques</div>' if len(alertes_critiques) > 3 else ''}
+        {f'<div style="color: {current_theme["text_muted"]}; font-size: 0.8rem;">+ {len(alertes_critiques) - 3} autres alertes critiques</div>' if len(alertes_critiques) > 3 else ''} 
     </div>
     """, unsafe_allow_html=True)
+    
     
     # Colonne 3: Recommandations principales
     st.markdown(f"""
@@ -1238,7 +1250,7 @@ if st.session_state.compact_mode:
     </div>
     """, unsafe_allow_html=True)
     
-    # Colonne 4: Résumé financier
+        # Colonne 4: Résumé financier
     if len(quotidien_filtre) > 0:
         revenus_total = quotidien_filtre['revenus'].sum()
         depenses_total = quotidien_filtre['depenses'].sum()
@@ -1262,7 +1274,7 @@ if st.session_state.compact_mode:
             </div>
         </div>
         """, unsafe_allow_html=True)
-    
+
     # Fermer la grille
     st.markdown('</div>', unsafe_allow_html=True)
     
@@ -1287,7 +1299,7 @@ if st.session_state.compact_mode:
             margin=dict(l=10, r=10, t=40, b=10)
         )
         st.plotly_chart(fig, use_container_width=True)
-    
+        
     # Graphique 2: Taux d'occupation par département
     if not departements_filtre.empty:
         fig = px.bar(departements_filtre, x='departement', y='tauxOccupation', 
@@ -1312,11 +1324,10 @@ if st.session_state.compact_mode:
     
     # Fermer la grille
     st.markdown('</div>', unsafe_allow_html=True)
-    
     # Tableau des départements
     st.markdown('<div style="margin-top: 1rem;">', unsafe_allow_html=True)
     st.markdown(f'<div class="compact-title">{t("department_quick_view_section")}</div>', unsafe_allow_html=True)
-    
+     
     # Créer une grille pour les départements
     if not departements_filtre.empty:
         dept_data = departements_filtre.copy()
@@ -1345,7 +1356,7 @@ if st.session_state.compact_mode:
                 """, unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
-
+    
 else:
     # Affichage du mode standard avec défilement
     
@@ -1448,7 +1459,7 @@ else:
             <div class="metric-value">{format_currency(revenu_total)}</div>
         </div>
         """, unsafe_allow_html=True)
-    
+        
     # Graphiques ligne 1
     st.markdown(f'<div class="sub-header">{t("patient_trends_section")}</div>', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
@@ -1536,7 +1547,7 @@ else:
             fig.update_yaxes(range=[0, 1], tickformat='.0%')
             st.plotly_chart(fig, use_container_width=True)
     
-    # Graphiques ligne 3
+        # Graphiques ligne 3
     st.markdown(f'<div class="sub-header">{t("financial_overview_section")}</div>', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     
