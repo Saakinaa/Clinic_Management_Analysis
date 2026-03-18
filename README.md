@@ -135,3 +135,9 @@ Strategic Decision-Making
 * Resource allocation can be optimized using data-driven approaches
 * Monitoring daily metrics improves operational responsiveness
 * Interactive visualization enhances understanding of complex datasets
+
+<div align="center">
+
+![Repo Views](https://komarev.com/ghpvc/?username=saakinaa\&repo=Clinical_Management_Analysis\&color=blueviolet\&style=for-the-badge)
+
+</div>
